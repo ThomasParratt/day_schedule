@@ -20,7 +20,12 @@ export default function TimetableApp() {
     setLessons(updated);
   };
 
-  const totalMinutes = (END_HOUR - START_HOUR) * 60;
+  const removeLesson = (index) => {
+    const updated = lessons.filter((_, i) => i !== index);
+    setLessons(updated);
+  };
+
+  const totalMinutes = (END_HOUR - START_HOUR) * 50;
 
   const hours = Array.from({ length: END_HOUR - START_HOUR + 1 }, (_, i) => START_HOUR + i);
 
@@ -28,21 +33,22 @@ export default function TimetableApp() {
     <div className="p-4 font-sans relative">
       <style>{`
         @media print {
+          * {
+            -webkit-print-color-adjust: exact; /* Chrome, Safari */
+            print-color-adjust: exact;         /* Firefox */
+          }
           body { margin: 0; }
           button, select, input { display: none; }
         }
       `}</style>
 
-      <h1 className="text-2xl font-bold mb-4">One-Day Timetable</h1>
-
       <button
         onClick={addLesson}
-        className="mb-4 px-4 py-2 bg-black text-white rounded"
+        className="mb-4 px-4 py-2 bg-blue-700 text-white rounded"
       >
         Add lesson
       </button>
 
-      {/* Lesson inputs */}
       {lessons.map((lesson, i) => (
         <div key={i} className="mb-2 flex gap-2 items-center">
           <select
@@ -78,8 +84,15 @@ export default function TimetableApp() {
             onChange={(e) => updateLesson(i, "student", e.target.value)}
             className="border p-1"
           />
+          <button
+            onClick={() => removeLesson(i)}
+            className="px-2 py-1 bg-red-500 text-white rounded"
+          >
+            Delete
+          </button>
         </div>
       ))}
+
 
       {/* Timetable header */}
       <div className="flex ml-12 mb-1">
@@ -91,14 +104,14 @@ export default function TimetableApp() {
       </div>
 
       {/* Timetable */}
-      <div className="flex relative" style={{ height: `${totalMinutes}px`, marginLeft: '48px' }}>
-        {/* Hour grid */}
-        <div className="absolute left-0 top-0 w-12">
+      <div className="flex relative">
+        {/* Times column */}
+        <div className="w-12 flex flex-col">
           {hours.map((h) => (
             <div
               key={h}
               className="border-b text-xs font-bold text-right pr-1"
-              style={{ height: '60px' }}
+              style={{ height: "50px" }}
             >
               {`${String(h).padStart(2, "0")}:00`}
             </div>
@@ -106,12 +119,16 @@ export default function TimetableApp() {
         </div>
 
         {/* Classroom columns */}
-        <div className="flex-1 flex">
+        <div className="flex-1 flex relative" style={{ height: `${totalMinutes}px` }}>
           {CLASSROOMS.map((room) => (
             <div key={room} className="flex-1 border-l relative">
               {/* Hour lines */}
               {hours.slice(0, -1).map((h) => (
-                <div key={h} className="absolute top-[0] left-0 right-0 border-b" style={{ top: `${(h - START_HOUR + 1) * 60}px` }} />
+                <div
+                  key={h}
+                  className="absolute left-0 right-0 border-b"
+                  style={{ top: `${(h - START_HOUR + 1) * 50}px` }}
+                />
               ))}
 
               {/* Lessons */}
@@ -121,18 +138,18 @@ export default function TimetableApp() {
                   const [sh, sm] = l.start.split(":").map(Number);
                   const [eh, em] = l.end.split(":").map(Number);
 
-                  const startMinutes = sh * 60 + sm - START_HOUR * 60;
-                  const endMinutes = eh * 60 + em - START_HOUR * 60;
+                  const startMinutes = sh * 50 + sm - START_HOUR * 50;
+                  const endMinutes = eh * 50 + em - START_HOUR * 50;
                   const top = startMinutes;
                   const height = endMinutes - startMinutes;
 
                   return (
                     <div
                       key={idx}
-                      className="absolute left-1 right-1 bg-black text-white p-1 text-[10px] rounded"
+                      className="absolute left-1 right-1 bg-blue-700 text-white p-1 text-[20px] rounded"
                       style={{ top: `${top}px`, height: `${height}px` }}
                     >
-                      <div>{l.teacher}</div>
+                      <div>{l.teacher} and</div>
                       <div>{l.student}</div>
                     </div>
                   );
@@ -141,6 +158,7 @@ export default function TimetableApp() {
           ))}
         </div>
       </div>
+
 
       <p className="mt-4 text-sm">Print in landscape for best results.</p>
     </div>
