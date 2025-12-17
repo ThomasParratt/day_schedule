@@ -20,10 +20,12 @@ export default function TimetableApp() {
     setLessons(updated);
   };
 
-  const hours = Array.from({ length: END_HOUR - START_HOUR }, (_, i) => START_HOUR + i);
+  const totalMinutes = (END_HOUR - START_HOUR) * 60;
+
+  const hours = Array.from({ length: END_HOUR - START_HOUR + 1 }, (_, i) => START_HOUR + i);
 
   return (
-    <div className="p-4 font-sans">
+    <div className="p-4 font-sans relative">
       <style>{`
         @media print {
           body { margin: 0; }
@@ -40,6 +42,7 @@ export default function TimetableApp() {
         Add lesson
       </button>
 
+      {/* Lesson inputs */}
       {lessons.map((lesson, i) => (
         <div key={i} className="mb-2 flex gap-2 items-center">
           <select
@@ -78,44 +81,65 @@ export default function TimetableApp() {
         </div>
       ))}
 
-      <div className="overflow-x-auto mt-6">
-        <table className="border-collapse border w-full text-xs">
-          <thead>
-            <tr>
-              <th className="border p-1">Time</th>
-              {CLASSROOMS.map((room) => (
-                <th key={room} className="border p-1">{room}</th>
+      {/* Timetable header */}
+      <div className="flex ml-12 mb-1">
+        {CLASSROOMS.map((room) => (
+          <div key={room} className="flex-1 text-center font-bold border">
+            {room}
+          </div>
+        ))}
+      </div>
+
+      {/* Timetable */}
+      <div className="flex relative" style={{ height: `${totalMinutes}px`, marginLeft: '48px' }}>
+        {/* Hour grid */}
+        <div className="absolute left-0 top-0 w-12">
+          {hours.map((h) => (
+            <div
+              key={h}
+              className="border-b text-xs font-bold text-right pr-1"
+              style={{ height: '60px' }}
+            >
+              {`${String(h).padStart(2, "0")}:00`}
+            </div>
+          ))}
+        </div>
+
+        {/* Classroom columns */}
+        <div className="flex-1 flex">
+          {CLASSROOMS.map((room) => (
+            <div key={room} className="flex-1 border-l relative">
+              {/* Hour lines */}
+              {hours.slice(0, -1).map((h) => (
+                <div key={h} className="absolute top-[0] left-0 right-0 border-b" style={{ top: `${(h - START_HOUR + 1) * 60}px` }} />
               ))}
-            </tr>
-          </thead>
-          <tbody>
-            {hours.map((h) => {
-              const label = `${String(h).padStart(2, "0")}:00`;
-              return (
-                <tr key={h}>
-                  <td className="border p-1 font-bold">{label}</td>
-                  {CLASSROOMS.map((room) => (
-                    <td key={room} className="border p-1 align-top h-12">
-                      {lessons
-                        .filter(
-                          (l) =>
-                            l.room === room &&
-                            l.start <= `${String(h).padStart(2, "0")}:00` &&
-                            l.end > `${String(h).padStart(2, "0")}:00`
-                        )
-                        .map((l, idx) => (
-                          <div key={idx} className="text-[10px]">
-                            <div>{l.teacher}</div>
-                            <div>{l.student}</div>
-                          </div>
-                        ))}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+
+              {/* Lessons */}
+              {lessons
+                .filter((l) => l.room === room)
+                .map((l, idx) => {
+                  const [sh, sm] = l.start.split(":").map(Number);
+                  const [eh, em] = l.end.split(":").map(Number);
+
+                  const startMinutes = sh * 60 + sm - START_HOUR * 60;
+                  const endMinutes = eh * 60 + em - START_HOUR * 60;
+                  const top = startMinutes;
+                  const height = endMinutes - startMinutes;
+
+                  return (
+                    <div
+                      key={idx}
+                      className="absolute left-1 right-1 bg-black text-white p-1 text-[10px] rounded"
+                      style={{ top: `${top}px`, height: `${height}px` }}
+                    >
+                      <div>{l.teacher}</div>
+                      <div>{l.student}</div>
+                    </div>
+                  );
+                })}
+            </div>
+          ))}
+        </div>
       </div>
 
       <p className="mt-4 text-sm">Print in landscape for best results.</p>
