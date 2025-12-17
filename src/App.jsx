@@ -10,7 +10,7 @@ export default function TimetableApp() {
   const addLesson = () => {
     setLessons([
       ...lessons,
-      { room: CLASSROOMS[0], start: "08:00", end: "09:00", teacher: "", student: "" },
+      { room: CLASSROOMS[0], start: "", end: "", teacher: "", student: "" },
     ]);
   };
 
@@ -133,6 +133,7 @@ export default function TimetableApp() {
 
               {/* Lessons */}
               {lessons
+                .filter((l) => l.room && l.start && l.end)
                 .filter((l) => l.room === room)
                 .map((l, idx) => {
                   const [sh, sm] = l.start.split(":").map(Number);
@@ -153,7 +154,8 @@ export default function TimetableApp() {
                       <div>{l.student}</div>
                     </div>
                   );
-                })}
+              })}
+
             </div>
           ))}
         </div>
