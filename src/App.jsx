@@ -153,7 +153,14 @@ export default function TimetableApp() {
 
                 {/* Lessons */}
                 {lessons
-                  .filter((l) => l.room && l.start && l.end)
+                  .filter(
+                    (l) =>
+                      l.room &&
+                      l.start &&
+                      l.end &&
+                      l.teacher?.trim() &&
+                      l.student?.trim()
+                  )
                   .filter((l) => l.room === room)
                   .map((l, idx) => {
                     const [sh, sm] = l.start.split(":").map(Number);
