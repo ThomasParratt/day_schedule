@@ -112,7 +112,7 @@ export default function TimetableApp() {
             />
             Online
           </label>
-          
+
           <button
             onClick={() => removeLesson(i)}
             className="px-2 py-1 bg-gray-600 text-white rounded"
@@ -183,14 +183,21 @@ export default function TimetableApp() {
                     return (
                       <div
                         key={idx}
-                        className="absolute left-1 right-1 bg-gray-600 text-white p-1 text-[20px] rounded"
+                        className="absolute left-1 right-1 bg-gray-600 text-white p-1 text-[20px] rounded relative"
                         style={{ top: `${top}px`, height: `${height}px` }}
                       >
+                        {l.online && (
+                          <span className="absolute top-1 right-1 text-[15px] text-gray-200 uppercase">
+                            Online
+                          </span>
+                        )}
+
                         <div>{l.teacher} and</div>
                         <div>{l.student}</div>
                       </div>
                     );
-                })}
+                  })
+                }
 
               </div>
             ))}
