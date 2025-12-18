@@ -38,7 +38,7 @@ export default function TimetableApp() {
             print-color-adjust: exact;         /* Firefox */
           }
           body { margin: 0; }
-          button, select, input { display: none; }
+          button, select, input, label { display: none; }
           @page {
             size: A4 landscape;
             margin: 10mm;
