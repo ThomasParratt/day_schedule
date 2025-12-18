@@ -10,7 +10,7 @@ export default function TimetableApp() {
   const addLesson = () => {
     setLessons([
       ...lessons,
-      { room: CLASSROOMS[0], start: "", end: "", teacher: "", student: "" },
+      { room: CLASSROOMS[0], start: "", end: "", teacher: "", student: "", online: false},
     ]);
   };
 
@@ -104,6 +104,15 @@ export default function TimetableApp() {
             onChange={(e) => updateLesson(i, "student", e.target.value)}
             className="border p-1"
           />
+          <label className="flex items-center gap-1">
+            <input
+              type="checkbox"
+              checked={lesson.online}
+              onChange={(e) => updateLesson(i, "online", e.target.checked)}
+            />
+            Online
+          </label>
+          
           <button
             onClick={() => removeLesson(i)}
             className="px-2 py-1 bg-gray-600 text-white rounded"
