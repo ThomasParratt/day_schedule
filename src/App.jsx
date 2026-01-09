@@ -209,7 +209,7 @@ export default function TimetableApp() {
                         style={{ top: `${top}px`, height: `${height}px` }}
                       >
                         {l.online && (
-                          <span className="absolute top-1 right-1 text-[15px] text-gray-200 uppercase">
+                          <span className="absolute top-1 right-1 text-[10px] text-gray-200 uppercase">
                             Online
                           </span>
                         )}
