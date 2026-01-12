@@ -10,6 +10,6 @@ export default function TimeColumn({ hours, PX_PER_HOUR }) {
                 {`${String(h).padStart(2, "0")}:00`}
               </div>
             ))}
-          </div>
+        </div>
     )
 }
