@@ -1,4 +1,4 @@
-export default function TableHeader( { CLASSROOMS }) {
+export default function TableHeader({ CLASSROOMS }) {
     return (
         <div className="flex ml-12 mb-1">
           {CLASSROOMS.map((room) => (

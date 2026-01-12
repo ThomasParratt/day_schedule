@@ -1,4 +1,4 @@
-export default function Input( {addLesson, lessons, updateLesson, removeLesson, CLASSROOMS}) {
+export default function Input({ addLesson, lessons, updateLesson, removeLesson, CLASSROOMS }) {
     return (
         <div>
             <button

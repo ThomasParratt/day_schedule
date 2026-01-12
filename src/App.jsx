@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Input from './components/Input'
 import TableHeader from './components/TableHeader'
+import TimeColumn from './components/TimeColumn'
 
 const START_HOUR = 8;
 const END_HOUR = 20;
@@ -83,18 +84,10 @@ export default function TimetableApp() {
         />
 
         <div className="flex relative">
-          {/* Time column */}
-          <div className="w-12 flex flex-col">
-            {hours.map((h) => (
-              <div
-                key={h}
-                className="text-xs font-bold text-right pr-1"
-                style={{ height: `${PX_PER_HOUR}px` }}
-              >
-                {`${String(h).padStart(2, "0")}:00`}
-              </div>
-            ))}
-          </div>
+          <TimeColumn
+            hours={hours} 
+            PX_PER_HOUR={PX_PER_HOUR}
+          />
 
           {/* Grid */}
           <div
