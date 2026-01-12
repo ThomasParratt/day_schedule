@@ -6,3 +6,37 @@
     @apply bg-white text-slate-900 antialiased;
   }
 }
+
+/* Print styles */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  button,
+  select,
+  input,
+  label {
+    display: none;
+  }
+
+  @page {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+
+  .print-block {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .print-block * {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}

@@ -45,29 +45,6 @@ export default function TimetableApp() {
 
   return (
     <div className="p-4 font-sans relative">
-      <style>{`
-        @media print {
-          * {
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-          }
-          body { margin: 0; }
-          button, select, input, label { display: none; }
-          @page {
-            size: A4 landscape;
-            margin: 10mm;
-          }
-          .print-block {
-            page-break-inside: avoid;
-            break-inside: avoid;
-          }
-          .print-block * {
-            page-break-inside: avoid;
-            break-inside: avoid;
-          }
-        }
-      `}</style>
-
       <Input 
         addLesson={addLesson}
         lessons={lessons}
