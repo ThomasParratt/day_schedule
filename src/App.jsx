@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Input from './components/Input'
 
 const START_HOUR = 8;
 const END_HOUR = 20;
@@ -11,30 +12,30 @@ export default function TimetableApp() {
   const [lessons, setLessons] = useState([]);
 
   const addLesson = () => {
-    setLessons([
+      setLessons([
       ...lessons,
       {
-        id: crypto.randomUUID(),
-        room: CLASSROOMS[0],
-        start: "",
-        end: "",
-        teacher: "",
-        student: "",
-        online: false,
+          id: crypto.randomUUID(),
+          room: CLASSROOMS[0],
+          start: "",
+          end: "",
+          teacher: "",
+          student: "",
+          online: false,
       },
-    ]);
+      ]);
   };
 
   const updateLesson = (index, field, value) => {
-    const updated = [...lessons];
-    updated[index][field] = value;
-    setLessons(updated);
+      const updated = [...lessons];
+      updated[index][field] = value;
+      setLessons(updated);
   };
 
   const removeLesson = (index) => {
-    setLessons(lessons.filter((_, i) => i !== index));
+      setLessons(lessons.filter((_, i) => i !== index));
   };
-
+    
   const hours = Array.from(
     { length: END_HOUR - START_HOUR },
     (_, i) => START_HOUR + i
@@ -67,77 +68,13 @@ export default function TimetableApp() {
         }
       `}</style>
 
-      <button
-        onClick={addLesson}
-        className="mb-4 px-4 py-2 bg-gray-600 text-white rounded"
-      >
-        Add lesson
-      </button>
-
-      <button
-        onClick={() => window.print()}
-        className="mb-4 ml-2 px-4 py-2 bg-gray-600 text-white rounded"
-      >
-        Print
-      </button>
-
-      {lessons.map((lesson, i) => (
-        <div key={lesson.id} className="mb-2 flex gap-2 items-center">
-          <select
-            value={lesson.room}
-            onChange={(e) => updateLesson(i, "room", e.target.value)}
-            className="border p-1"
-          >
-            {CLASSROOMS.map((r) => (
-              <option key={r}>{r}</option>
-            ))}
-          </select>
-
-          <input
-            type="time"
-            value={lesson.start}
-            onChange={(e) => updateLesson(i, "start", e.target.value)}
-            className="border p-1"
-          />
-
-          <input
-            type="time"
-            value={lesson.end}
-            onChange={(e) => updateLesson(i, "end", e.target.value)}
-            className="border p-1"
-          />
-
-          <input
-            placeholder="Teacher"
-            value={lesson.teacher}
-            onChange={(e) => updateLesson(i, "teacher", e.target.value)}
-            className="border p-1"
-          />
-
-          <input
-            placeholder="Student"
-            value={lesson.student}
-            onChange={(e) => updateLesson(i, "student", e.target.value)}
-            className="border p-1"
-          />
-
-          <label className="flex items-center gap-1">
-            <input
-              type="checkbox"
-              checked={lesson.online}
-              onChange={(e) => updateLesson(i, "online", e.target.checked)}
-            />
-            Online
-          </label>
-
-          <button
-            onClick={() => removeLesson(i)}
-            className="px-2 py-1 bg-gray-600 text-white rounded"
-          >
-            Delete
-          </button>
-        </div>
-      ))}
+      <Input 
+        addLesson={addLesson}
+        lessons={lessons}
+        updateLesson={updateLesson}
+        removeLesson={removeLesson}
+        CLASSROOMS={CLASSROOMS}
+      />
 
       <div className="print-block">
         {/* Header */}
