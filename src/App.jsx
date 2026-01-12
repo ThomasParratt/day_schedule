@@ -155,7 +155,7 @@ export default function TimetableApp() {
             {hours.map((h) => (
               <div
                 key={h}
-                className="border-b text-xs font-bold text-right pr-1"
+                className="text-xs font-bold text-right pr-1"
                 style={{ height: `${PX_PER_HOUR}px` }}
               >
                 {`${String(h).padStart(2, "0")}:00`}
