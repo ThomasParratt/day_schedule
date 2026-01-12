@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Input from './components/Input'
+import TableHeader from './components/TableHeader'
 
 const START_HOUR = 8;
 const END_HOUR = 20;
@@ -77,14 +78,9 @@ export default function TimetableApp() {
       />
 
       <div className="print-block">
-        {/* Header */}
-        <div className="flex ml-12 mb-1">
-          {CLASSROOMS.map((room) => (
-            <div key={room} className="flex-1 text-center font-bold border">
-              {room}
-            </div>
-          ))}
-        </div>
+        <TableHeader 
+          CLASSROOMS={CLASSROOMS}
+        />
 
         <div className="flex relative">
           {/* Time column */}
