@@ -15,6 +15,19 @@ export default function TimetableApp() {
 
   const [date, setDate] = useState("");
 
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+
+    const dateObj = new Date(dateString);
+
+    return new Intl.DateTimeFormat("en-GB", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(dateObj);
+  };
+
   const addLesson = () => {
       setLessons([
       ...lessons,
@@ -56,14 +69,14 @@ export default function TimetableApp() {
       />
 
       <input
-        type="text"
+        type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
         placeholder="Enter date here"
         className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <h1 className="text-xl font-semibold mt-4 mb-4">
-        Helsinki Room Schedule - {date}
+        Helsinki Room Schedule - {formatDate(date)}
       </h1>
 
       <div className="print-block">
