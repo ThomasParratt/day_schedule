@@ -13,6 +13,8 @@ const CLASSROOMS = ["LEARN 2", "SPEAK 5", "THINK 6", "TRAIN 2", "WRITE 2"];
 export default function TimetableApp() {
   const [lessons, setLessons] = useState([]);
 
+  const [date, setDate] = useState("");
+
   const addLesson = () => {
       setLessons([
       ...lessons,
@@ -52,6 +54,19 @@ export default function TimetableApp() {
         removeLesson={removeLesson}
         CLASSROOMS={CLASSROOMS}
       />
+
+      <div className="flex items-center gap-2 mt-4 mb-4">
+        <h1 className="text-xl font-semibold">
+          Helsinki Room Schedule - {date}
+        </h1>
+        <input
+          type="text"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          placeholder="Enter date here"
+          className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
 
       <div className="print-block">
         <TableHeader 
