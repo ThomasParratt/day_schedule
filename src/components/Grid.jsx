@@ -44,7 +44,7 @@ export default function Grid({ lessons, hours, CLASSROOMS, PX_PER_HOUR, START_HO
                     return (
                       <div
                         key={l.id}
-                        className="absolute left-1 right-1 bg-gray-600 text-white p-1 text-[20px] rounded"
+                        className="absolute left-1 right-1 bg-gray-600 text-white p-1 text-[20px] rounded border-1"
                         style={{ top: `${top}px`, height: `${height}px` }}
                       >
                         {l.online && (
